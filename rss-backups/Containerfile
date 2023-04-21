@@ -1,0 +1,21 @@
+#  app:
+FROM docker.io/cthulhoo/ttrss-fpm-pgsql-static:latest
+# FROM cthulhoo/ttrss-fpm-pgsql-static:latest
+#    registry.fedoraproject.org/cthulhoo/ttrss-fpm-pgsql-static:latest
+#    registry.access.redhat.com/cthulhoo/ttrss-fpm-pgsql-static:latest
+#  ▸ docker.io/cthulhoo/ttrss-fpm-pgsql-static:latest
+#    quay.io/cthulhoo/ttrss-fpm-pgsql-static:latest
+
+#    env_file:
+#      - .env
+#    volumes:
+#      - backups:/backups
+#      - app:/var/www/html
+#    depends_on:
+#      - db
+#    command: /opt/tt-rss/dcron.sh -f
+
+# ENTRYPOINT /root/entryscript.sh
+# CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
+CMD ["/opt/tt-rss/dcron.sh", "-f"]
+

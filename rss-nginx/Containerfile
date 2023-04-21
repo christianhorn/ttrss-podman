@@ -1,0 +1,18 @@
+FROM docker.io/cthulhoo/ttrss-web-nginx:latest
+#    registry.fedoraproject.org/cthulhoo/ttrss-fpm-pgsql-static:latest
+#    registry.access.redhat.com/cthulhoo/ttrss-fpm-pgsql-static:latest
+#  ▸ docker.io/cthulhoo/ttrss-fpm-pgsql-static:latest
+#    quay.io/cthulhoo/ttrss-fpm-pgsql-static:latest
+
+#    ports:
+#      - ${HTTP_PORT}:80
+#    volumes:
+#      - app:/var/www/html:ro
+#    depends_on:
+#      - app
+
+EXPOSE 8280
+# ENTRYPOINT /root/entryscript.sh
+# CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
+# CMD ["/docker-entrypoint.sh", "nginx"]
+

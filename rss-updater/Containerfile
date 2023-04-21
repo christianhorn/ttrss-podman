@@ -1,0 +1,21 @@
+#  app:
+FROM docker.io/cthulhoo/ttrss-fpm-pgsql-static:latest
+#    registry.fedoraproject.org/cthulhoo/ttrss-fpm-pgsql-static:latest
+#    registry.access.redhat.com/cthulhoo/ttrss-fpm-pgsql-static:latest
+#  ▸ docker.io/cthulhoo/ttrss-fpm-pgsql-static:latest
+#    quay.io/cthulhoo/ttrss-fpm-pgsql-static:latest
+
+#    restart: unless-stoppe
+#    env_file:
+#      - .env
+#    volumes:
+#      - app:/var/www/html
+#      - ./config.d:/opt/tt-rss/config.d:ro
+#    depends_on:
+#      - app
+#    command: /opt/tt-rss/updater.sh
+
+# ENTRYPOINT /root/entryscript.sh
+# CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
+CMD ["/opt/tt-rss/updater.sh"]
+
