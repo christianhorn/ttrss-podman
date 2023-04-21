@@ -22,7 +22,7 @@ Outline of the configuration:
 To be executed as user:
 
 ```sh
-git clone https://github.com[..] ttrss-podman
+git clone https://github.com/christianhorn/ttrss-podman
 cd ttrss-podman
 cp .env-dist .env
 vi .env # details below
