@@ -1,0 +1,26 @@
+FROM docker.io/library/debian:bookworm
+ENV DEBIAN_FRONTEND noninteractive
+EXPOSE 80
+
+RUN apt update && apt upgrade -y && \
+	apt install -y curl wget gnupg apt-transport-https lsb-release ca-certificates sudo systemd procps \
+		git rsync sudo tzdata \
+		php8.2 php8.2-cli php8.2-curl php8.2-mbstring php8.2-fpm php8.2-intl php8.2-gd php8.2-pgsql \
+		php8.2-xml php8.2-opcache php-apcu postgresql-15 nginx nvi
+
+#		RUN [ ! -z ${ALPINE_MIRROR} ] && \
+#        sed -i.bak "s#dl-cdn.alpinelinux.org#${ALPINE_MIRROR}#" /etc/apk/repositories ; \
+#        apk add --no-cache ca-certificates dcron git postgresql-client rsync sudo tzdata \
+#                php${PHP_SUFFIX} \
+#                $(for p in ctype dom exif fileinfo fpm gd iconv intl json mbstring opcache \
+#                        openssl pcntl pdo pdo_pgsql pecl-apcu pecl-xdebug phar posix session simplexml sockets tokenizer xml xmlwriter zip; do \
+#                        php_pkgs="$php_pkgs php${PHP_SUFFIX}-$p"; \
+#                done; \
+#                echo $php_pkgs) && \
+#        sed -i 's/\(memory_limit =\) 128M/\1 256M/' /etc/php${PHP_SUFFIX}/php.ini && \
+
+COPY ttrss-backup.sh /root
+COPY ttrss-env /root
+RUN mkdir /backups
+
+CMD [ "/lib/systemd/systemd" ]
