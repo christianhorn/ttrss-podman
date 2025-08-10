@@ -1,5 +1,6 @@
 # Podmanized tt-rss
 
+
 This is a podman version of tt-rss, 
 [https://tt-rss.org/](https://tt-rss.org/) .
 The setup uses the same images as the official tt-rss build which is
@@ -43,14 +44,57 @@ accessible on the net, it's recommended to but i.e. an nginx in front.
 ```
 
 
-#### Build and start the containers
+#### Build and start the container
 
 ```sh
-cat build_all.sh
-[execute the commands one by one, as user]
+# build locally
+podman build -t ttrss build-bookworm/
+
+# run locally
+podman run -p 127.0.0.1:8280:80 --name ttrss -d \
+        --security-opt seccomp=unconfined --hostname ttrss \
+        localhost/ttrss /lib/systemd/systemd
+
+podman exec -it ttrss bash
+
+sudo -u postgres psql
+postgres=# CREATE USER "www-data" WITH PASSWORD 'windy4spot3seven';
+postgres=# CREATE DATABASE ttrss WITH OWNER "www-data";
+postgres=# \quit
+exit
+
+cd /var/www/html
+git clone https://git.tt-rss.org/fox/tt-rss.git tt-rss
+cd tt-rss
+cp config.php-dist config.php
+# vi config.php
+# podman cp config.php ttrss:/config.php
+echo '127.0.0.1 db' >>/etc/hosts
+php ./update.php --update-schema
+cd ..
+chown -R www-data:www-data tt-rss
+
+cd /etc/nginx/sites-available/
+vi ttrss
+# podman cp ttrss ttrss:/etc/nginx/sites-available/ttrss
+
+systemctl enable --now php8.2-fpm
+cd ../sites-enabled/
+rm default
+ln -s ../sites-available/ttrss .
+service nginx restart
+
+vi /etc/systemd/system/ttrss-updater.service
+systemctl daemon-reload
+systemctl enable --now ttrss-updater
+
+# login with admin/password
+
+# backups
+/root/ttrss-backup.sh
+
 ```
 
-Yes, I mean it - that way you can debug easily.
 
 #### Login credentials
 
